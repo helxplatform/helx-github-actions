@@ -2,9 +2,6 @@ name: Build-Project
 run-name: Build-Project
 on: 
   workflow_call:
-  pull_request:
-    branches: [ master, develop, main ]
-    types: [ opened ]
 jobs:
   build-packages:
     runs-on: ubuntu-latest

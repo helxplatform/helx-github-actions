@@ -2,27 +2,6 @@
 name: Code-Checks
 on:
   workflow_call:
-  push:
-    # branches-ignore:
-    #   - master
-    #   - main
-    #   - develop
-    # paths-ignore:
-    #   - README.md
-    #   - .old_cicd/*
-    #   - .github/*
-    #   - .github/workflows/*
-    #   - LICENSE
-    #   - .gitignore
-    #   - .dockerignore
-    #   - .githooks
-  pull_request:
-    branches:
-      - develop
-      - master
-      - main 
-    types: [ opened, synchronize ]
-
 jobs:
   test-image-build:
     runs-on: ubuntu-latest

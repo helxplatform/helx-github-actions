@@ -2,21 +2,7 @@ name: flake8
 
 on:
   workflow_call:
-  push:
-    # paths-ignore:
-    #   - README.md
-    #   - .old_cicd/*
-    #   - .github/*
-    #   - .github/workflows/*
-    #   - LICENSE
-    #   - .gitignore
-    #   - .dockerignore
-    #   - .githooks
   # Run flake every time.
-  pull_request:
-    branches: [ master, develop, main ]
-    types: [ opened ]
-
 jobs:
   flake8-check:
     runs-on: ubuntu-latest
