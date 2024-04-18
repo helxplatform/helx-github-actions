@@ -20,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     # if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
           
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.9'
 
@@ -31,7 +31,7 @@ jobs:
     # but the cache is not as robust as cache action.
     # Here we cache the entire python env which speeds subsequent builds up alot. (alot being scientific term)
     # Ref: https://blog.allenai.org/python-caching-in-github-actions-e9452698e98d
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       name: Cache Python
       with:
         path: ${{ env.pythonLocation }}
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     # if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set short git commit SHA
       id: vars
