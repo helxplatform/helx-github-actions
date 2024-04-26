@@ -1,5 +1,5 @@
-# this is being used by helx-ui
-name: Code-Checks
+# Used by Appstore-Sockets
+name: Build-Test
 on:
   workflow_call:
 jobs:
@@ -46,6 +46,7 @@ jobs:
     # Notes on Cache: 
     # https://docs.docker.com/build/ci/github-actions/examples/#inline-cache
     - name: Build Container
+      if: ${{ github.repository != 'helxplatform/appstore-sockets' }}
       uses: docker/build-push-action@v5
       with:
         context: .
@@ -55,3 +56,29 @@ jobs:
           ${{ github.repository }}:test_${{ steps.branch.outputs.GHR }}
         cache-from: type=registry,ref=${{ github.repository }}:buildcache
         cache-to: type=registry,ref=${{ github.repository }}:buildcache,mode=max
+
+    - name: Build Server Container for Appstore-Sockets
+      if: ${{ github.repository == 'helxplatform/appstore-sockets' }}
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: |
+          containers.renci.org/${{ github.repository }}/server:test_${{ steps.branch.outputs.GHR }}
+          ${{ github.repository }}/server:test_${{ steps.branch.outputs.GHR }}
+        cache-from: type=registry,ref=${{ github.repository }}/server:buildcache
+        cache-to: type=registry,ref=${{ github.repository }}/server:buildcache,mode=max
+
+    - name: Build Monitor Container for Appstore-Sockets
+      if: ${{ github.repository == 'helxplatform/appstore-sockets' }}
+      uses: docker/build-push-action@v5
+      with:
+        context: ./monitoring
+        file: ./monitoring/Dockerfile
+        push: true
+        tags: |
+          containers.renci.org/${{ github.repository }}/monitor:test_${{ steps.branch.outputs.GHR }}
+          ${{ github.repository }}/monitor:test_${{ steps.branch.outputs.GHR }}
+        cache-from: type=registry,ref=${{ github.repository }}/monitor:buildcache
+        cache-to: type=registry,ref=${{ github.repository }}/monitor:buildcache,mode=max
