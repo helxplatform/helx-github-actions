@@ -5,6 +5,7 @@ on:
 jobs:
   test-image-build:
     runs-on: ubuntu-latest
+    # if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
     - uses: actions/checkout@v4
 
@@ -27,12 +28,30 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
         logout: true
 
+    - name: Login to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: containers.renci.org
+        username: ${{ secrets.CONTAINERHUB_USERNAME }}
+        password: ${{ secrets.CONTAINERHUB_TOKEN }}
+        logout: true
+
+    - name: Parse Github Reference Name
+      id: branch
+      run: |
+        REF=${{ github.ref_name }}
+        echo "GHR=${REF%/*}" >> $GITHUB_OUTPUT
+        
+
     # Notes on Cache: 
     # https://docs.docker.com/build/ci/github-actions/examples/#inline-cache
     - name: Build Container
       uses: docker/build-push-action@v5
       with:
         context: .
-        push: false
+        push: true
+        tags: |
+          containers.renci.org/${{ github.repository }}:test_${{ steps.branch.outputs.GHR }}
+          ${{ github.repository }}:test_${{ steps.branch.outputs.GHR }}
         cache-from: type=registry,ref=${{ github.repository }}:buildcache
         cache-to: type=registry,ref=${{ github.repository }}:buildcache,mode=max
