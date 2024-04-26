@@ -1,4 +1,4 @@
-# Used by Appstore-Sockets
+# Used by Appstore-Sockets and HeLx-Ui
 name: Build-Test
 on:
   workflow_call:
