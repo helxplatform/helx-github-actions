@@ -28,9 +28,8 @@ To use these actions in your repository, follow these steps:
 Here's a simple example of how to use an action from this repository in your workflow:
 
 ## In a .yaml File
-
-name: Example Workflow
 ```yaml
+name: Example Workflow
 on:
   push:
     branches:
