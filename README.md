@@ -1,4 +1,4 @@
-# HELX GitHub Actions
+# HeLx GitHub Actions
 
 Welcome to the HELX GitHub Actions repository! This repository hosts a collection of GitHub Actions designed specifically for use with the Human Environmental and Life eXploratory (HeLx) platform.
 
