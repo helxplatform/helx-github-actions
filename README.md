@@ -1,10 +1,11 @@
 # HeLx GitHub Actions
 
-Welcome to the HELX GitHub Actions repository! This repository hosts a collection of GitHub Actions designed specifically for use with the Human Environmental and Life eXploratory (HeLx) platform.
+Welcome to the HeLx GitHub Actions repository! This repository hosts a collection of GitHub Actions designed specifically for use with the HeLx platform.
 
 ## How it Works
 
-GitHub Actions are automated workflows that you can set up in your GitHub repository to streamline your development process. The actions provided in this repository are pre-configured to perform various tasks related to HELX development, such as building, testing, and deploying applications.
+GitHub Actions are automated workflows that you can set up in your GitHub repository to streamline your development process. The actions provided in this repository are pre-configured to perform various tasks related to HeLx development, such as building, testing, and deploying applications.
+
 To use these actions in your repository, follow these steps:
 
 1. **Choose an Action**: Contact the DevOps team for actions to be integrated into a repository.
@@ -18,8 +19,7 @@ To use these actions in your repository, follow these steps:
 5. **Monitor the Workflow**: GitHub will automatically run your workflow according to the triggers you specified. You can monitor the progress and view the results in the Actions tab of your repository.
 
 ## Things to Note
-
-1. Repository secrets are NOT stored in this repository. They are not able to be stored for security reasons. The DevOps team control all of the secret accesses. Secrets can be transfered from your repository to helx-github-actions using
+1. Repository secrets are NOT stored in this repository. They are not able to be stored for security reasons. The DevOps team control all of the secret accesses. Secrets can be transfered from your repository to helx-github-actions using 
 
 2. When testing actions, make sure to comment out certain paramaters so actions will run when changes are made. (e.g., only runs on pull requests or pushs on certain branches)
 
@@ -27,21 +27,24 @@ To use these actions in your repository, follow these steps:
 
 Here's a simple example of how to use an action from this repository in your workflow:
 
-## In .yaml file
+## In a .yaml File
 
 name: Example Workflow
 
 on:
-push:
-branches: - main
+  push:
+    branches:
+      - main
 
 jobs:
-build:
-runs-on: ubuntu-latest
-steps: - name: Checkout repository
-uses: actions/checkout@v2 - name: Example action usage
-uses: helxplatform/helx-github-actions/action-name@main
-secrets: inherit
-with:
-parameter1: value1
-parameter2: value2
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Example action usage
+      uses: helxplatform/helx-github-actions/action-name@main
+      secrets: inherit
+      with:
+        parameter1: value1
+        parameter2: value2
