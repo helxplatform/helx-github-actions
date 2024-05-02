@@ -30,7 +30,7 @@ Here's a simple example of how to use an action from this repository in your wor
 ## In a .yaml File
 
 name: Example Workflow
-
+```yaml
 on:
   push:
     branches:
@@ -48,3 +48,4 @@ jobs:
       with:
         parameter1: value1
         parameter2: value2
+```
