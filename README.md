@@ -4,7 +4,7 @@ Welcome to the HeLx GitHub Actions repository! This repository hosts a collectio
 
 ## How it Works
 
-GitHub Actions are automated workflows that you can set up in your GitHub repository to streamline your development process. The actions provided in this repository are pre-configured to perform various tasks related to HeLx development, such as building, testing, and deploying applications.
+GitHub Actions are automated workflows that you can set up in your GitHub repository to streamline your development process. The actions provided in this repository are pre-configured to perform various tasks related to HeLx development, such as building and testing container artifacts and synchronizing our helm-charts.
 
 To use these actions in your repository, follow these steps:
 
@@ -19,15 +19,11 @@ To use these actions in your repository, follow these steps:
 5. **Monitor the Workflow**: GitHub will automatically run your workflow according to the triggers you specified. You can monitor the progress and view the results in the Actions tab of your repository.
 
 ## Things to Note
-1. Repository secrets are NOT stored in this repository. They are not able to be stored for security reasons. The DevOps team control all of the secret accesses. Secrets can be transfered from your repository to helx-github-actions using 
-
-2. When testing actions, make sure to comment out certain paramaters so actions will run when changes are made. (e.g., only runs on pull requests or pushs on certain branches)
+1. Repository secrets are NOT stored in this repository. They are not able to be stored for security reasons. The DevOps team control all of the secret accesses. 
 
 ## Example
 
 Here's a simple example of how to use an action from this repository in your workflow:
-
-## In a .yaml File
 ```yaml
 name: Example Workflow
 on:
