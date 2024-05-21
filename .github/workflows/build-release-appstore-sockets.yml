@@ -1,6 +1,6 @@
 # Workflow responsible for the 
 # major release processes.
-# Workflow is being called by appstore and helx-ui
+# Workflow is being called by appstore-sockets
 
 name: Build-Push-Release
 on:
@@ -73,36 +73,36 @@ jobs:
       with:
         push: true
         context: .
-        files: ./Dockerfile
+        file: ./Dockerfile
         # Push to renci-registry and dockerhub here.
         # cache comes from dockerhub.
         tags: |
           containers.renci.org/${{ github.repository }}/server:v${{ steps.version.outputs.version }}
           containers.renci.org/${{ github.repository }}/server:latest
           containers.renci.org/${{ github.repository }}/server:${{ steps.vars.outputs.short_sha }}
-          ${{ github.repository }}/server:v${{ steps.version.outputs.version }}
-          ${{ github.repository }}/server:latest
-          ${{ github.repository }}/server:${{ steps.vars.outputs.short_sha }}
-        cache-from: type=registry,ref=${{ github.repository }}/server:buildcache
-        cache-to: type=registry,ref=${{ github.repository }}/server:buildcache,mode=max
+          ${{ github.repository }}-server:v${{ steps.version.outputs.version }}
+          ${{ github.repository }}-server:latest
+          ${{ github.repository }}-server:${{ steps.vars.outputs.short_sha }}
+        cache-from: type=registry,ref=${{ github.repository }}-server:buildcache
+        cache-to: type=registry,ref=${{ github.repository }}-server:buildcache,mode=max
 
     - name: Build Push Container
       uses: docker/build-push-action@v5
       with:
         push: true
         context: ./monitoring
-        files: ./monitoring/Dockerfile
+        file: ./monitoring/Dockerfile
         # Push to renci-registry and dockerhub here.
         # cache comes from dockerhub.
         tags: |
           containers.renci.org/${{ github.repository }}/monitoring:v${{ steps.version.outputs.version }}
           containers.renci.org/${{ github.repository }}/monitoring:latest
           containers.renci.org/${{ github.repository }}/monitoring:${{ steps.vars.outputs.short_sha }}
-          ${{ github.repository }}/monitoring:v${{ steps.version.outputs.version }}
-          ${{ github.repository }}/monitoring:latest
-          ${{ github.repository }}/monitoring:${{ steps.vars.outputs.short_sha }}
-        cache-from: type=registry,ref=${{ github.repository }}/monitoring:buildcache
-        cache-to: type=registry,ref=${{ github.repository }}/monitoring:buildcache,mode=max
+          ${{ github.repository }}-monitoring:v${{ steps.version.outputs.version }}
+          ${{ github.repository }}-monitoring:latest
+          ${{ github.repository }}-monitoring:${{ steps.vars.outputs.short_sha }}
+        cache-from: type=registry,ref=${{ github.repository }}-monitoring:buildcache
+        cache-to: type=registry,ref=${{ github.repository }}-monitoring:buildcache,mode=max
 
 #==========================TAG & RELEASE W/ NOTES =========================
 
