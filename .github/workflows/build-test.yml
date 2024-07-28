@@ -47,7 +47,7 @@ jobs:
     # https://docs.docker.com/build/ci/github-actions/examples/#inline-cache
     - name: Build Container
       if: ${{ github.repository != 'helxplatform/appstore-sockets' }}
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         push: true
@@ -59,7 +59,7 @@ jobs:
 
     - name: Build Server Container for Appstore-Sockets
       if: ${{ github.repository == 'helxplatform/appstore-sockets' }}
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: ./Dockerfile
@@ -76,7 +76,7 @@ jobs:
 
     - name: Build Monitor Container for Appstore-Sockets
       if: ${{ github.repository == 'helxplatform/appstore-sockets' }}
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: ./monitoring
         file: ./monitoring/Dockerfile
