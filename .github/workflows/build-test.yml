@@ -74,6 +74,7 @@ jobs:
         cache-from: type=registry,ref=${{ github.repository }}-server:buildcache
         cache-to: type=registry,ref=${{ github.repository }}-server:buildcache,mode=max
 
+        
     - name: Build Monitor Container for Appstore-Sockets
       if: ${{ github.repository == 'helxplatform/appstore-sockets' }}
       uses: docker/build-push-action@v5
