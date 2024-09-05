@@ -61,26 +61,35 @@ jobs:
       if: ${{ github.repository == 'helxplatform/gitea-assist'  }}
       env:
         BINARY_NAME: assistant
-      run: |
-        echo "BINARY_NAME=$(BINARY_NAME)"
-        go version || (echo "Go not found, installing..." && sudo apt-get update && sudo apt-get install -y golang)
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        push: true
+        tags: |
+          containers.renci.org/${{ github.repository }}:test_${{ steps.branch.outputs.GHR }}
+          ${{ github.repository }}:test_${{ steps.branch.outputs.GHR }}
+        cache-from: type=registry,ref=${{ github.repository }}:buildcache
+        cache-to: type=registry,ref=${{ github.repository }}:buildcache,mode=max 
+      # run: |
+      #   echo "BINARY_NAME=$(BINARY_NAME)"
+      #   go version || (echo "Go not found, installing..." && sudo apt-get update && sudo apt-get install -y golang)
         
         
-        echo "Building Go application..."
-        go build
+      #   echo "Building Go application..."
+      #   go build
 
-        echo "Running Go tests..."
-        go fmt ./...
-        go vet ./...
-        go test ./...
+      #   echo "Running Go tests..."
+      #   go fmt ./...
+      #   go vet ./...
+      #   go test ./...
 
-        echo "Building Docker image..."
-        docker build --platform=linux/amd64 -t $REGISTRY_NAME/$CONTAINER_NAME .
+      #   echo "Building Docker image..."
+      #   docker build --platform=linux/amd64 -t $REGISTRY_NAME/$CONTAINER_NAME .
 
       
-        echo "Logging in and pushing Docker image..."
-        echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-        docker push $REGISTRY_NAME/$CONTAINER_NAME
+      #   echo "Logging in and pushing Docker image..."
+      #   echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+      #   docker push $REGISTRY_NAME/$CONTAINER_NAME
 
     - name: Build Server Container for Appstore-Sockets
       if: ${{ github.repository == 'helxplatform/appstore-sockets' }}
