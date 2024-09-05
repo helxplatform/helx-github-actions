@@ -60,10 +60,9 @@ jobs:
     - name: Build Container for gittea
       if: ${{ github.repository == 'helxplatform/gitea-assist'  }}
       env:
-        REGISTRY_NAME: containers.renci.org/helxplatform
-        CONTAINER_NAME: gitea-assist:latest
+        BINARY_NAME: assistant
       run: |
-       
+        echo "BINARY_NAME=$(BINARY_NAME)"
         go version || (echo "Go not found, installing..." && sudo apt-get update && sudo apt-get install -y golang)
         
         
