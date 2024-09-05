@@ -46,7 +46,7 @@ jobs:
     # Notes on Cache: 
     # https://docs.docker.com/build/ci/github-actions/examples/#inline-cache
     - name: Build Container
-      if: ${{ github.repository != 'helxplatform/appstore-sockets' || 'helxplatform/gitea-assist'  }}
+      if: ${{ github.repository != 'helxplatform/appstore-sockets' && github.repository != 'helxplatform/gitea-assist'  }}
       uses: docker/build-push-action@v6
       with:
         context: .
