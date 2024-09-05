@@ -61,6 +61,8 @@ jobs:
       if: ${{ github.repository == 'helxplatform/gitea-assist'  }}
       env:
         BINARY_NAME: assistant
+        run: |
+           echo "BINARY_NAME=$(BINARY_NAME)"
       uses: docker/build-push-action@v6
       with:
         context: .
