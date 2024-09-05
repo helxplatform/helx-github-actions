@@ -60,12 +60,10 @@ jobs:
     - name: Build Container for gittea
       if: ${{ github.repository == 'helxplatform/gitea-assist'  }}
       env:
-        BINARY_NAME: assistant
-        run: |
-           echo "BINARY_NAME=$(BINARY_NAME)"
+        ${BINARY_NAME}: assistant
       uses: docker/build-push-action@v6
       with:
-        context: .
+        context: ./Makefile
         push: true
         tags: |
           containers.renci.org/${{ github.repository }}:test_${{ steps.branch.outputs.GHR }}
