@@ -14,6 +14,11 @@ jobs:
       run: |
         echo "short_sha=$(git rev-parse --short ${{ github.sha }})" >> $GITHUB_OUTPUT
     # https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
+    - name: Echo BINARY_NAME set in Makefile
+      if: ${{ github.repository == 'helxplatform/gitea-assist'  }}
+      id: BINARY_NAME 
+      run: |
+        make echo >> $GITHUB_OUTPUT
 
     - name: Confirm git commit SHA output
       run: echo ${{ steps.vars.outputs.short_sha }}
