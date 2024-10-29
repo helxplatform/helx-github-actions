@@ -24,7 +24,7 @@ jobs:
       if: ${{ github.repository == 'helxplatform/gitea-assist'  }}
       id: BINARY_NAME 
       run: |
-        make echo >> $GITHUB_OUTPUT
+        make echo 
 
     - name: Confirm git commit SHA output
       run: echo ${{ steps.vars.outputs.short_sha }}
