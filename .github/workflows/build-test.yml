@@ -9,22 +9,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Setup Go
-      uses: actions/setup-go@v4
-      with:
-       go-version: '1.23'
-
     - name: Set short git commit SHA
       id: vars
       run: |
         echo "short_sha=$(git rev-parse --short ${{ github.sha }})" >> $GITHUB_OUTPUT
     # https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
-
-    - name: Echo BINARY_NAME set in Makefile
-      if: ${{ github.repository == 'helxplatform/gitea-assist'  }}
-      id: BINARY_NAME 
-      run: |
-        make echo 
 
     - name: Confirm git commit SHA output
       run: echo ${{ steps.vars.outputs.short_sha }}
