@@ -57,21 +57,6 @@ jobs:
         cache-from: type=registry,ref=${{ github.repository }}:buildcache
         cache-to: type=registry,ref=${{ github.repository }}:buildcache,mode=max
 
-    - name: echo Build Container for gittea
-      if: ${{ github.repository == 'helxplatform/gitea-assist'  }}
-      env:
-        BINARY_NAME: assistant
-      run: |
-        echo "BINARY_NAME=${{ env.BINARY_NAME }}"
-        go version || (echo "Go not found, installing..." && sudo apt-get update && sudo apt-get install -y golang)
-        
-        echo "Building Go application..."
-        go build
-
-        echo "Running Go tests..."
-        go fmt ./...
-        go vet ./...
-        go test ./...
     - name: Build Container for gittea
       if: ${{ github.repository == 'helxplatform/gitea-assist'  }}
       uses: docker/build-push-action@v6
