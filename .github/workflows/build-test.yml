@@ -80,12 +80,8 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
-          containers.renci.org/${{ github.repository }}/server:v${{ steps.version.outputs.version }}
-          containers.renci.org/${{ github.repository }}/server:latest
-          containers.renci.org/${{ github.repository }}/server:${{ steps.vars.outputs.short_sha }}
-          ${{ github.repository }}-server:v${{ steps.version.outputs.version }}
-          ${{ github.repository }}-server:latest
-          ${{ github.repository }}-server:${{ steps.vars.outputs.short_sha }}
+          containers.renci.org/${{ github.repository }}/server:test_${{ steps.branch.outputs.GHR }}
+          ${{ github.repository }}-server:test_${{ steps.branch.outputs.GHR }}
         cache-from: type=registry,ref=${{ github.repository }}-server:buildcache
         cache-to: type=registry,ref=${{ github.repository }}-server:buildcache,mode=max
 
@@ -97,11 +93,7 @@ jobs:
         file: ./monitoring/Dockerfile
         push: true
         tags: |
-          containers.renci.org/${{ github.repository }}/monitoring:v${{ steps.version.outputs.version }}
-          containers.renci.org/${{ github.repository }}/monitoring:latest
-          containers.renci.org/${{ github.repository }}/monitoring:${{ steps.vars.outputs.short_sha }}
-          ${{ github.repository }}-monitoring:v${{ steps.version.outputs.version }}
-          ${{ github.repository }}-monitoring:latest
-          ${{ github.repository }}-monitoring:${{ steps.vars.outputs.short_sha }}
+          containers.renci.org/${{ github.repository }}/monitoring:test_${{ steps.branch.outputs.GHR }}
+          ${{ github.repository }}-monitoring:test_${{ steps.branch.outputs.GHR }}
         cache-from: type=registry,ref=${{ github.repository }}-monitoring:buildcache
         cache-to: type=registry,ref=${{ github.repository }}-monitoring:buildcache,mode=max
