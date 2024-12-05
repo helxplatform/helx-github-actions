@@ -69,6 +69,12 @@ jobs:
         password: ${{ secrets.CONTAINERHUB_TOKEN }}
         logout: true
 
+    - name: Parse Github Reference Name
+      id: branch
+      run: |
+          REF=${{ github.ref_name }}
+          echo "GHR=${REF%/*}" >> $GITHUB_OUTPUT
+
     # Notes on Cache: 
     # https://docs.docker.com/build/ci/github-actions/examples/#inline-cache
     - name: Build Push Container
@@ -79,7 +85,7 @@ jobs:
         # cache comes from dockerhub.
         tags: |
           containers.renci.org/${{ github.repository }}:v${{ steps.version.outputs.version }}
-          containers.renci.org/${{ github.repository }}:latest
+          containers.renci.org/${{ github.repository }}:${{ steps.branch.outputs.GHR }}
           containers.renci.org/${{ github.repository }}:${{ steps.vars.outputs.short_sha }}
           ${{ github.repository }}:v${{ steps.version.outputs.version }}
           ${{ github.repository }}:latest
