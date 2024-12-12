@@ -51,6 +51,13 @@ jobs:
         password: ${{ secrets.CONTAINERHUB_TOKEN }}
         logout: true
 
+# We use this pattern for develop tag but it also works for any additional tags being used, like in grader-api
+    - name: Parse Github Reference Name
+      id: branch
+      run: |
+        REF=${{ github.ref_name }}
+        echo "GHR=${REF%/*}" >> $GITHUB_OUTPUT
+        
 
     # Notes on Cache: 
     # https://docs.docker.com/build/ci/github-actions/examples/#inline-cache
@@ -62,9 +69,9 @@ jobs:
         # Push to renci-registry and dockerhub here.
         # cache comes from dockerhub.
         tags: |
-          ${{ github.repository }}:develop
+          ${{ github.repository }}:${{ steps.branch.outputs.GHR }}
           ${{ github.repository }}:${{ steps.vars.outputs.short_sha }}
-          containers.renci.org/${{ github.repository }}:develop
+          containers.renci.org/${{ github.repository }}:${{ steps.branch.outputs.GHR }}
           containers.renci.org/${{ github.repository }}:${{ steps.vars.outputs.short_sha }}
         cache-from: type=registry,ref=${{ github.repository }}:buildcache-dev
         cache-to: type=registry,ref=${{ github.repository }}:buildcache-dev,mode=max
