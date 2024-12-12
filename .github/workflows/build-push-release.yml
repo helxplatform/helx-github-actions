@@ -72,6 +72,7 @@ jobs:
     # Notes on Cache: 
     # https://docs.docker.com/build/ci/github-actions/examples/#inline-cache
     - name: Build Push Container
+      if: ${{ github.repository != 'helxplatform/eduhelx-grader-api' }}
       uses: docker/build-push-action@v6
       with:
         push: true
@@ -96,6 +97,7 @@ jobs:
     # https://docs.github.com/en/rest/git/refs?apiVersion=2022-11-28#create-a-reference
     # This creates a "lightweight" ref tag.
     - name: Create Tag for Release
+      if: ${{ github.repository != 'helxplatform/eduhelx-grader-api' }}
       run: |
         curl \
         -s --fail -X POST \
@@ -105,6 +107,7 @@ jobs:
 
 #   https://cli.github.com/manual/gh_release_create
     - name: Create Release
+      if: ${{ github.repository != 'helxplatform/eduhelx-grader-api' }}
       env:
         RELEASE_VERSION: ${{ steps.version.outputs.version }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -113,3 +116,26 @@ jobs:
           -t "${{ env.RELEASE_VERSION }}" \
           --generate-notes \
           --latest
+
+#========================== eduhelx-grader-api ===========================#
+    - name: Parse Github Reference Name
+      if: ${{ github.repository == 'helxplatform/eduhelx-grader-api' }}
+      id: branch
+      run: |
+        REF=${{ github.ref_name }}
+        echo "GHR=${REF%/*}" >> $GITHUB_OUTPUT
+
+    - name: Build Push Container
+      if: ${{ github.repository == 'helxplatform/eduhelx-grader-api' }}
+      uses: docker/build-push-action@v6
+      with:
+        push: true
+        # Push to renci-registry and dockerhub here.
+        # cache comes from dockerhub.
+        tags: |
+          containers.renci.org/${{ github.repository }}:${{ steps.branch.outputs.GHR }}
+          containers.renci.org/${{ github.repository }}:${{ steps.vars.outputs.short_sha }}
+          ${{ github.repository }}:${{ steps.vars.outputs.short_sha }}
+          ${{ github.repository }}:${{ steps.branch.outputs.GHR }}
+        cache-from: type=registry,ref=${{ github.repository }}:buildcache
+        cache-to: type=registry,ref=${{ github.repository }}:buildcache,mode=max
