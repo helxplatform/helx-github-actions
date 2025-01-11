@@ -72,7 +72,7 @@ jobs:
     # Notes on Cache: 
     # https://docs.docker.com/build/ci/github-actions/examples/#inline-cache
     - name: Build Push Container
-      if: ${{ github.repository != 'helxplatform/eduhelx-grader-api' }}
+      if: ${{ github.repository != 'helxplatform/grader-api' }}
       uses: docker/build-push-action@v6
       with:
         push: true
@@ -97,7 +97,7 @@ jobs:
     # https://docs.github.com/en/rest/git/refs?apiVersion=2022-11-28#create-a-reference
     # This creates a "lightweight" ref tag.
     - name: Create Tag for Release
-      if: ${{ github.repository != 'helxplatform/eduhelx-grader-api' }}
+      if: ${{ github.repository != 'helxplatform/grader-api' }}
       run: |
         curl \
         -s --fail -X POST \
@@ -107,7 +107,7 @@ jobs:
 
 #   https://cli.github.com/manual/gh_release_create
     - name: Create Release
-      if: ${{ github.repository != 'helxplatform/eduhelx-grader-api' }}
+      if: ${{ github.repository != 'helxplatform/grader-api' }}
       env:
         RELEASE_VERSION: ${{ steps.version.outputs.version }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -119,14 +119,14 @@ jobs:
 
 #========================== eduhelx-grader-api ===========================#
     - name: Parse Github Reference Name
-      if: ${{ github.repository == 'helxplatform/eduhelx-grader-api' }}
+      if: ${{ github.repository == 'helxplatform/grader-api' }}
       id: branch
       run: |
         REF=${{ github.ref_name }}
         echo "GHR=${REF%/*}" >> $GITHUB_OUTPUT
 
     - name: Build Push Container
-      if: ${{ github.repository == 'helxplatform/eduhelx-grader-api' }}
+      if: ${{ github.repository == 'helxplatform/grader-api' }}
       uses: docker/build-push-action@v6
       with:
         push: true
