@@ -2,6 +2,11 @@
 name: Build-Test
 on:
   workflow_call:
+    
+concurrency:
+  group: ${{ github.head_ref || github.ref_name }}-${{ github.workflow }}-buildtest
+  cancel-in-progress: true
+
 jobs:
   test-image-build:
     runs-on: ubuntu-latest

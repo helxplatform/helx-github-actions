@@ -2,6 +2,11 @@
 name: trivy-pr-scan 
 on:
   workflow_call:
+
+concurrency:
+  group: ${{ github.head_ref || github.ref_name }}-${{ github.workflow }}-trivyscan
+  cancel-in-progress: true
+
 jobs:
  trivy-pr-scan:
     runs-on: ubuntu-latest
