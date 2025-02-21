@@ -10,10 +10,13 @@
 # handle the develop and release image storage respectively.
 #
 #
-
 name: Code-Checks
 on: 
     workflow_call:
+
+concurrency:
+  group: ${{ github.head_ref || github.ref_name }}-${{ github.workflow }}-codechecks
+  cancel-in-progress: true
 jobs:
 ############################## flake8-linter ##############################
   flake8-linter:
