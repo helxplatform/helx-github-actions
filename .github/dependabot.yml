@@ -2,9 +2,8 @@
 # Dependabot helps keep third party actions updated to most recent release.
 version: 2
 updates:
-
   - package-ecosystem: "github-actions"
-    directory: "/"
+    directory: "/.github/workflows/
     schedule:
       interval: "monthly"
     target-branch: "develop"
