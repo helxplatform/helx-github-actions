@@ -2,12 +2,10 @@
 # Dependabot helps keep third party actions updated to most recent release.
 version: 2
 updates:
-
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "daily"
     target-branch: "develop"
     reviewers:
       - "joshua-seals"
-      - "pchachicho"
