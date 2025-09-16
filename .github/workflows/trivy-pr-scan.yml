@@ -8,8 +8,33 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
- trivy-pr-scan:
+ trivy-filesystem-pr-scan:
     runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    
+    # We will not be concerned with Medium and Low vulnerabilities
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@0.33.1
+      with:
+        scan-type: 'fs'
+        format: 'sarif'
+        severity: 'CRITICAL,HIGH'
+        output: 'trivy-results-fs.sarif'
+        exit-code: '1'
+    # Scan results should be viewable in GitHub Security Dashboard
+    # We still fail the job if results are found, so below will always run
+    # unless manually canceled.
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v3
+      if: '!cancelled()'
+      with:
+        sarif_file: 'trivy-results-fs.sarif'
+        
+ trivy-image-pr-scan:
+    runs-on: ubuntu-latest
+    # Because the filesystem job will fail, we still run image scan to get the full picture
+    if: ${{ always() }}
     steps:
     - uses: actions/checkout@v5
 
@@ -45,7 +70,7 @@ jobs:
         image-ref: '${{ github.repository }}:vuln-test'
         format: 'sarif'
         severity: 'CRITICAL,HIGH'
-        output: 'trivy-results.sarif'
+        output: 'trivy-results-img.sarif'
         exit-code: '1'
     # Scan results should be viewable in GitHub Security Dashboard
     # We still fail the job if results are found, so below will always run
@@ -54,4 +79,4 @@ jobs:
       uses: github/codeql-action/upload-sarif@v3
       if: '!cancelled()'
       with:
-        sarif_file: 'trivy-results.sarif'
+        sarif_file: 'trivy-results-img.sarif'
