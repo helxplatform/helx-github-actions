@@ -11,7 +11,7 @@ jobs:
  trivy-filesystem-pr-scan:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     
     # We will not be concerned with Medium and Low vulnerabilities
     - name: Run Trivy vulnerability scanner
@@ -36,7 +36,7 @@ jobs:
     # Because the filesystem job will fail, we still run image scan to get the full picture
     if: ${{ always() }}
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
